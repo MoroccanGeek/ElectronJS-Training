@@ -1,0 +1,12 @@
+{
+  "name": "electron-tuto-app",
+  "version": "1.0.0",
+  "description": "Electron docs tutorial app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^10.1.1"
+  }
+}
