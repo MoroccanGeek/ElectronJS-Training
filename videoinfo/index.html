@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>
+            Video Info
+        </title>
+    </head>
+    <body>
+        <h1>Hello World</h1>
+
+        <form>
+            <div>
+                <label>Select a video</label>
+                <input type="file" accept="video/*">
+            </div>
+            <button type="submit">Get Info</button>
+        </form>
+
+        <script>
+            const electron = require('electron');
+            const { ipcRenderer } = electron;
+
+            document.querySelector('form').addEventListener('submit', (event)=>{
+                event.preventDefault();
+                const { path } = document.querySelector('input').files[0];
+                
+                ipcRenderer.send('videoSubmit', path);
+
+            });
+
+            ipcRenderer.on('videoPath', (event, path) => {
+                alert('Path is: ' + path);
+            })
+        </script>
+    </body>
+</html>
