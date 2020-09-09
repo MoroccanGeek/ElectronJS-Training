@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>
+            To-Do App
+        </title>
+    </head>
+    <body>
+        <h1>My ToDo's</h1>
+        <ul></ul>
+    </body>
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        
+        const list = document.querySelector('ul');
+
+        ipcRenderer.on('todoRecieving', (event, todo) => {
+            const li = document.createElement('li');
+            const text = document.createTextNode(todo);
+
+            li.appendChild(text);
+            list.appendChild(li);
+
+        });
+
+        ipcRenderer.on('clearAll', () => {
+            list.innerHTML = '';
+        });
+    </script>
+</html>
