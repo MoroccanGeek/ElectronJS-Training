@@ -1,5 +1,14 @@
+//Modules
+const fs = require('fs')
+
 // DOM nodes
 let items = document.getElementById('items')
+
+let readerJS
+fs.readFile(`${__dirname}/reader.js`, (err, data) => {
+    readerJS = data.toString()
+})
+
 
 
 exports.storage = JSON.parse(localStorage.getItem('bookmarks')) || []
@@ -13,8 +22,6 @@ exports.select = e => {
     e.currentTarget.classList.add('selected')
 }
 
-
-
 exports.save = () => {
     localStorage.setItem('bookmarks', JSON.stringify(this.storage))
 }
@@ -27,9 +34,21 @@ exports.open = () => {
     // Get selected item
     let currentItem = document.getElementsByClassName('read-item selected')[0]
 
+    // get item's URL
     let contentURL = currentItem.dataset.url;
 
-    console.log('opening item: ', contentURL)
+    // open item in proxy BrowserWindow
+    let readWin = window.open(contentURL, '', `
+        maxWidth=2000,
+        maxHeight=2000,
+        width=1200,
+        height=800,
+        backgroundColor=#DEDEDE,
+        nodeIntegration=0,
+        contextIsolation=1`);
+
+    // inject JS
+    readWin.eval(readerJS)
 
 }
 
