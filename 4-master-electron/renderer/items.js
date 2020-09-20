@@ -1,4 +1,5 @@
 //Modules
+const { shell } = require('electron')
 const fs = require('fs')
 
 // DOM nodes
@@ -79,6 +80,23 @@ exports.save = () => {
     localStorage.setItem('bookmarks', JSON.stringify(this.storage))
 }
 
+// Open selected item in native browser
+exports.openNative = () => {
+
+    // only if we have items (in case of menu open)
+    if(!this.storage.length) return
+
+    // Get selected item
+    let currentItem = this.getSelectedItem()
+
+    // get item's URL
+    let contentURL = currentItem.node.dataset.url;
+
+    // Open in user's default system browser
+    shell.openExternal(contentURL)
+}
+
+// Open selected item
 exports.open = () => {
 
     // only if we have items (in case of menu open)
